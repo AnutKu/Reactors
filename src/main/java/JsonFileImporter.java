@@ -8,39 +8,40 @@ import java.util.Map;
 
 public class JsonFileImporter extends FileImporter{
     @Override
-    public void importFile(File file, Map<String, Reactor> reactorMap) throws IOException {
+    public void importFile(File file, ReactorHolder reactorMap) throws IOException {
         if (file.getName().endsWith(".json")) {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(file);
 
-            // Итерируемся по всем полям JSON-объекта
             for (Iterator<String> it = rootNode.fieldNames(); it.hasNext(); ) {
                 String fieldName = it.next();
                 JsonNode reactorNode = rootNode.get(fieldName);
                 if (reactorNode != null && reactorNode.isObject()) {
                     Reactor reactor = parseReactor(reactorNode);
-                    reactorMap.put(fieldName, reactor);
+                    reactorMap.addReactor(fieldName, reactor);
                 }
             }
-        } else if (successor != null) {
-            successor.importFile(file, reactorMap);
+        } else if (next != null) {
+            next.importFile(file, reactorMap);
         } else {
             System.out.println("Unsupported file format");
         }
     }
 
     private Reactor parseReactor(JsonNode reactorNode) {
-        String type = reactorNode.get("type") != null ? reactorNode.get("type").asText() : null;
-        String reactorClass = reactorNode.get("class") != null ? reactorNode.get("class").asText() : null;
-        double burnup = reactorNode.get("burnup") != null ? reactorNode.get("burnup").asDouble() : 0.0;
-        double electricalCapacity = reactorNode.get("electrical_capacity") != null ? reactorNode.get("electrical_capacity").asDouble() : 0.0;
-        double enrichment = reactorNode.get("enrichment") != null ? reactorNode.get("enrichment").asDouble() : 0.0;
-        double firstLoad = reactorNode.get("first_load") != null ? reactorNode.get("first_load").asDouble() : 0.0;
-        double kpd = reactorNode.get("kpd") != null ? reactorNode.get("kpd").asDouble() : 0.0;
-        int lifeTime = reactorNode.get("life_time") != null ? reactorNode.get("life_time").asInt() : 0;
-        double thermalCapacity = reactorNode.get("termal_capacity") != null ? reactorNode.get("termal_capacity").asDouble() : 0.0;
+        // reactorNode имеет вид {"class":"MKER","burnup":30,"kpd":0.352,"enrichment":0.024,"termal_capacity":4250,"electrical_capacity":1500,"life_time":50,"first_load":192};
+        String type = reactorNode.has("type") ? reactorNode.get("type").asText() : null;
+        String reactorClass = reactorNode.has("class") ? reactorNode.get("class").asText() : null;
+        double burnup = reactorNode.has("burnup") ? reactorNode.get("burnup").asDouble() : 0.0;
+        double electricalCapacity = reactorNode.has("electrical_capacity") ? reactorNode.get("electrical_capacity").asDouble() : 0.0;
+        double enrichment = reactorNode.has("enrichment") ? reactorNode.get("enrichment").asDouble() : 0.0;
+        double firstLoad = reactorNode.has("first_load") ? reactorNode.get("first_load").asDouble() : 0.0;
+        double kpd = reactorNode.has("kpd") ? reactorNode.get("kpd").asDouble() : 0.0;
+        int lifeTime = reactorNode.has("life_time") ? reactorNode.get("life_time").asInt() : 0;
+        double thermalCapacity = reactorNode.has("termal_capacity") ? reactorNode.get("termal_capacity").asDouble() : 0.0;
 
         return new Reactor(type, reactorClass, burnup, electricalCapacity, enrichment, firstLoad, kpd, lifeTime, thermalCapacity, "JSON");
     }
+
 
 }

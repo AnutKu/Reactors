@@ -5,37 +5,41 @@ import org.w3c.dom.NodeList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Map;
 
 public class XmlFileImporter extends FileImporter {
     @Override
-    public void importFile(File file, Map<String, Reactor> reactorMap) throws IOException {
+    public void importFile(File file, ReactorHolder reactorMap) throws IOException {
         if (file.getName().endsWith(".xml")) {
-            try {
+            try {// блок try-with-resources. Этот блок гарантирует, что ресурсы будут закрыты после завершения работы с ними, даже в случае исключения
                 DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
                 DocumentBuilder builder = factory.newDocumentBuilder();
-                Document doc = builder.parse(file);
-                doc.getDocumentElement().normalize();
+                try (var fileInputStream = new FileInputStream(file)) {
+                    Document doc = builder.parse(fileInputStream);
+                    doc.getDocumentElement().normalize();
 
-                NodeList nodeList = doc.getDocumentElement().getChildNodes();
+                    NodeList nodeList = doc.getDocumentElement().getChildNodes();
 
-                for (int i = 0; i < nodeList.getLength(); i++) {
-                    if (nodeList.item(i).getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
-                        Element element = (Element) nodeList.item(i);
-                        Reactor reactor = parseReactor(element);
-                        reactorMap.put(element.getNodeName(), reactor);
+                    for (int i = 0; i < nodeList.getLength(); i++) {
+                        if (nodeList.item(i).getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+                            Element element = (Element) nodeList.item(i);
+                            Reactor reactor = parseReactor(element);
+                            reactorMap.addReactor(element.getNodeName(), reactor);
+                        }
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else if (successor != null) {
-            successor.importFile(file, reactorMap);
+        } else if (next != null) {
+            next.importFile(file, reactorMap);
         } else {
             System.out.println("Unsupported file format");
         }
     }
+
 
     private Reactor parseReactor(Element element) {
         String type = element.getNodeName();

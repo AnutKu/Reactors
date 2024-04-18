@@ -7,17 +7,20 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainFrame {
-    private static Map<String, Reactor> reactorMap;
+    private ReactorHolder reactorHolder = new ReactorHolder();
+
+    public static void main(String[] args) {
+        showFrame();
+    }
 
     public static void showFrame() {
+        MainFrame mainFrame = new MainFrame();
         JFrame frame = new JFrame();
-        JLabel label = new JLabel("Имя листа:");
+        frame.setTitle("Лабораторная 3");
+        JLabel label = new JLabel("Выберите файл для импорта информации:");
         JButton chooseButton = new JButton("Выбрать файл");
-        reactorMap = new HashMap<>();
 
         chooseButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -28,8 +31,8 @@ public class MainFrame {
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = fileChooser.getSelectedFile();
                     try {
-                        importFile(selectedFile);
-                        displayReactorTree();
+                        mainFrame.importFile(selectedFile);
+                        mainFrame.displayReactorTree();
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -41,29 +44,29 @@ public class MainFrame {
         panel.add(label);
         panel.add(chooseButton);
         frame.add(panel);
-        frame.setSize(400, 200);
+        frame.setSize(300, 100);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
-    private static void importFile(File file) throws IOException {
+    private void importFile(File file) throws IOException {
         JsonFileImporter importerChain = new JsonFileImporter();
         XmlFileImporter xmlImporter = new XmlFileImporter();
         YamlFileImporter yamlImporter = new YamlFileImporter();
 
-        importerChain.setSuccessor(xmlImporter);
-        xmlImporter.setSuccessor(yamlImporter);
+        importerChain.setNext(xmlImporter);
+        xmlImporter.setNext(yamlImporter);
 
-        importerChain.importFile(file, reactorMap);
+        importerChain.importFile(file, reactorHolder);
     }
 
-    private static void displayReactorTree() {
+    private void displayReactorTree() {
         JFrame treeFrame = new JFrame("Reactor Tree");
         treeFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Reactor Types");
-        for (String type : reactorMap.keySet()) {
+        for (String type : reactorHolder.getReactorMap().keySet()) {
             DefaultMutableTreeNode reactorNode = new DefaultMutableTreeNode(type);
             root.add(reactorNode);
         }
@@ -75,7 +78,7 @@ public class MainFrame {
                 DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
                 if (selectedNode != null && selectedNode.getUserObject() instanceof String) {
                     String reactorName = (String) selectedNode.getUserObject();
-                    Reactor reactor = reactorMap.get(reactorName);
+                    Reactor reactor = reactorHolder.getReactorMap().get(reactorName);
                     if (reactor != null) {
                         showReactorInfo(reactor);
                     }
@@ -91,7 +94,7 @@ public class MainFrame {
         treeFrame.setVisible(true);
     }
 
-    private static void showReactorInfo(Reactor reactor) {
+    private void showReactorInfo(Reactor reactor) {
         JFrame infoFrame = new JFrame("Reactor Info");
         JTextArea infoTextArea = new JTextArea(reactor.toString());
         infoTextArea.setEditable(false);
@@ -101,6 +104,3 @@ public class MainFrame {
         infoFrame.setVisible(true);
     }
 }
-
-
-

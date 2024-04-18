@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.util.Map;
 
 public abstract class FileImporter {
-    protected FileImporter successor;
+    protected FileImporter next;
 
-    public void setSuccessor(FileImporter successor) {
-        this.successor = successor;
+    public void setNext(FileImporter next) {
+        this.next = next;
     }
 
-    public abstract void importFile(File file, Map<String, Reactor> reactorMap) throws IOException;
+    public abstract void importFile(File file, ReactorHolder reactorMap) throws IOException;
 }
