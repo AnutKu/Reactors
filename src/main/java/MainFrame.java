@@ -54,10 +54,8 @@ public class MainFrame {
         JsonFileImporter importerChain = new JsonFileImporter();
         XmlFileImporter xmlImporter = new XmlFileImporter();
         YamlFileImporter yamlImporter = new YamlFileImporter();
-
         importerChain.setNext(xmlImporter);
         xmlImporter.setNext(yamlImporter);
-
         importerChain.importFile(file, reactorHolder);
     }
 
