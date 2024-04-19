@@ -14,27 +14,9 @@ public class YamlFileImporter extends FileImporter {
                 Iterable<Object> objects = yaml.loadAll(inputStream);
                 for (Object object : objects) {
                     Map<String, ?> map = (Map<String, ?>) object;
-                    String type = null;
-                    String reactorClass = null;
-                    Double burnup = null;
-                    Double electricalCapacity = null;
-                    Double enrichment = null;
-                    Double firstLoad = null;
-                    Double kpd = null;
-                    Integer lifeTime = null;
-                    Double thermalCapacity = null;
                     for (String key : map.keySet()) {
                         Map<?, ?> innerMap = (Map<?, ?>) map.get(key);
-                        type = (String) innerMap.get("type");
-                        reactorClass = (String) innerMap.get("class");
-                        burnup = ((Number) innerMap.get("burnup")).doubleValue();
-                        electricalCapacity = ((Number) innerMap.get("electrical_capacity")).doubleValue();
-                        enrichment = ((Number) innerMap.get("enrichment")).doubleValue();
-                        firstLoad = ((Number) innerMap.get("first_load")).doubleValue();
-                        kpd = ((Number) innerMap.get("kpd")).doubleValue();
-                        lifeTime = (Integer) innerMap.get("life_time");
-                        thermalCapacity = firstLoad = ((Number) innerMap.get("termal_capacity")).doubleValue();
-                        Reactor reactor = new Reactor(type, reactorClass, burnup, electricalCapacity, enrichment, firstLoad, kpd, lifeTime, thermalCapacity, "YAML");
+                        Reactor reactor = parseDict(innerMap);
                         reactorMap.addReactor(key, reactor);
                     }
                 }
@@ -48,4 +30,20 @@ public class YamlFileImporter extends FileImporter {
             System.out.println("Unsupported file format");
         }
     }
+
+    private Reactor parseDict(Map<?, ?> innerMap){
+        String type = (String) innerMap.get("type");
+        String reactorClass = (String) innerMap.get("class");
+        Double burnup = ((Number) innerMap.get("burnup")).doubleValue();
+        Double electricalCapacity = ((Number) innerMap.get("electrical_capacity")).doubleValue();
+        Double enrichment = ((Number) innerMap.get("enrichment")).doubleValue();
+        Double firstLoad = ((Number) innerMap.get("first_load")).doubleValue();
+        Double kpd = ((Number) innerMap.get("kpd")).doubleValue();
+        Integer lifeTime = (Integer) innerMap.get("life_time");
+        Double thermalCapacity = firstLoad = ((Number) innerMap.get("termal_capacity")).doubleValue();
+        Reactor reactor = new Reactor(type, reactorClass, burnup, electricalCapacity, enrichment, firstLoad, kpd, lifeTime, thermalCapacity, "YAML");
+        return reactor;
+    }
+
+
 }
