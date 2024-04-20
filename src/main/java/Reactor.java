@@ -33,7 +33,8 @@ public class Reactor {
                 "   Первая загрузка " + firstLoad + "\n" +
                 "   КПД " + kpd + "\n" +
                 "   Продолжительность жизни " + lifeTime + "\n" +
-                "   Теплоемкость " + thermalCapacity
+                "   Теплоемкость " + thermalCapacity + "\n" +
+                "   Ресурс: " +source
                 ;
     }
 }
