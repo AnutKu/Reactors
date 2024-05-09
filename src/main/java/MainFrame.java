@@ -22,7 +22,7 @@ public class MainFrame {
         frame.setTitle("Лабораторная 3");
         JLabel label = new JLabel("Выберите файл для импорта информации:");
         JButton chooseButton = new JButton("Выбрать файл");
-
+        JButton parsetButton = new JButton("Спарсить данные");
         chooseButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = null;
@@ -45,12 +45,25 @@ public class MainFrame {
                 }
             }
         });
+        parsetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    // При нажатии на кнопку вызываем метод start() Parser'а
+                    Parser parser = new Parser();
+                    parser.start();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
 
         JPanel panel = new JPanel();
         panel.add(label);
         panel.add(chooseButton);
+        panel.add(parsetButton);
         frame.add(panel);
-        frame.setSize(300, 100);
+        frame.setSize(300, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
