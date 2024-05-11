@@ -1,3 +1,7 @@
+package Lab3;
+
+import Lab3.Reactor;
+
 import java.util.HashMap;
 import java.util.Map;
 

@@ -1,3 +1,8 @@
+package Lab3;
+
+import Lab3.FileImporter;
+import Lab3.Reactor;
+import Lab3.ReactorHolder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -7,7 +12,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Map;
 
 public class XmlFileImporter extends FileImporter {
     @Override
@@ -51,7 +55,6 @@ public class XmlFileImporter extends FileImporter {
         Double kpd = getDoubleElementTextContent(element, "kpd");
         Integer lifeTime = getIntElementTextContent(element, "life_time");
         Double thermalCapacity = getDoubleElementTextContent(element, "termal_capacity");
-
         return new Reactor(type, reactorClass, burnup, electricalCapacity, enrichment, firstLoad, kpd, lifeTime, thermalCapacity, "XML");
     }
 

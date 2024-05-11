@@ -1,3 +1,5 @@
+package Lab3;
+
 public class Reactor {
     private String type;
     private String reactorClass;
@@ -24,7 +26,48 @@ public class Reactor {
         this.thermalCapacity = thermalCapacity;
         this.source = source;
     }
-        @Override
+
+    public String getType() {
+        return type;
+    }
+
+    public String getReactorClass() {
+        return reactorClass;
+    }
+
+    public Double getBurnup() {
+        return burnup;
+    }
+
+    public Double getElectricalCapacity() {
+        return electricalCapacity;
+    }
+
+    public Double getEnrichment() {
+        return enrichment;
+    }
+
+    public Double getFirstLoad() {
+        return firstLoad;
+    }
+
+    public Double getKpd() {
+        return kpd;
+    }
+
+    public Integer getLifeTime() {
+        return lifeTime;
+    }
+
+    public Double getThermalCapacity() {
+        return thermalCapacity;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    @Override
     public String toString() {
         return  "   Класс реактора " + reactorClass  + "\n" +
                 "   Выгорание " + burnup + "\n" +
@@ -34,7 +77,6 @@ public class Reactor {
                 "   КПД " + kpd + "\n" +
                 "   Продолжительность жизни " + lifeTime + "\n" +
                 "   Теплоемкость " + thermalCapacity + "\n" +
-                "   Ресурс: " +source
-                ;
+                "   Ресурс: " + source + "Тип" + type;
     }
 }
