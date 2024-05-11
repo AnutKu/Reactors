@@ -1,12 +1,14 @@
+package Lab3;
+
+import Lab3.FileImporter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.Map;
 
-public class JsonFileImporter extends FileImporter{
+public class JsonFileImporter extends FileImporter {
     @Override
     public void importFile(File file, ReactorHolder reactorMap) throws IOException {
         if (file.getName().endsWith(".json")) {

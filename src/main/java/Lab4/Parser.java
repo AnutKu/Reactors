@@ -1,3 +1,5 @@
+package Lab4;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +15,21 @@ public class Parser {
     List<List<String>> dataList = new ArrayList<>();
 
     public void start() throws IOException {
+        reactorsInCountries.put("GRAFENRHEINFELD", "GERMANY");
+        reactorsInCountries.put("PHILIPPSBURG-2", "GERMANY");
+        reactorsInCountries.put("GUNDREMMINGEN-B", "GERMANY");
+        reactorsInCountries.put("GROHNDE", "GERMANY");
+        reactorsInCountries.put("GUNDREMMINGEN-C", "GERMANY");
+        reactorsInCountries.put("ISAR-2", "GERMANY");
+        reactorsInCountries.put("BROKDORF", "GERMANY");
+        reactorsInCountries.put("EMSLAND", "GERMANY");
+        reactorsInCountries.put("NECKARWESTHEIM-2", "GERMANY");
+        reactorsInCountries.put("CHINSHAN-1", "TAIWAN");
+        reactorsInCountries.put("CHINSHAN-2", "TAIWAN");
+        reactorsInCountries.put("KUOSHENG-1", "TAIWAN");
+        reactorsInCountries.put("KUOSHENG-2", "TAIWAN");
+        reactorsInCountries.put("MAANSHAN-1", "TAIWAN");
+        reactorsInCountries.put("MAANSHAN-2", "TAIWAN");
         readCountriesFromPage();
         readReactorsFromCountries();
         parseReactors();
@@ -72,6 +89,8 @@ public class Parser {
 
     public void parseReactors() throws IOException{
         System.out.println(reactorsInCountries);
+        countries.put("GERMANY", "DE");
+        countries.put("TAIWAN", "TWN");
         int allpars = 0;
         for (Integer i = 1; i < 1000; i++) {
             try {
@@ -87,7 +106,7 @@ public class Parser {
                     String operator = doc.getElementById("MainContent_MainContent_hypOperatorUrl") != null ? doc.getElementById("MainContent_MainContent_hypOperatorUrl").text() : null;
                     String thermalCapacity = doc.getElementById("MainContent_MainContent_lblThermalCapacity") != null ? doc.getElementById("MainContent_MainContent_lblThermalCapacity").text() : null;
                     String firstGridConnection = doc.getElementById("MainContent_MainContent_lblGridConnectionDate") != null ? doc.getElementById("MainContent_MainContent_lblGridConnectionDate").text().split(",")[1].trim() : null;
-                    String loadFactor = doc.getElementById("MainContent_MainContent_lblLoadFactor") != null ? doc.getElementById("MainContent_MainContent_lblLoadFactor").text() : null;
+                    String loadFactor = doc.getElementById("MainContent_MainContent_lblLoadFactor") != null ? doc.getElementById("MainContent_MainContent_lblLoadFactor").text().split("%")[0].trim() : null;
                     String suspenedData = null;
                     Boolean flag = true;
                     if (status.equals("Suspended Operation")) {
@@ -97,7 +116,7 @@ public class Parser {
                             flag = false;
                         }
                     } else {
-                        suspenedData = doc.getElementById("MainContent_MainContent_lblLongTermShutdownDate") != null ? doc.getElementById("MainContent_MainContent_lblLongTermShutdownDate").text() : null;
+                        suspenedData = null;
                     }
                     String permanentData = null;
                     if (status.equals("Permanent Shutdown")) {
@@ -107,7 +126,7 @@ public class Parser {
                             flag = false;
                         }
                     } else {
-                        permanentData = doc.getElementById("MainContent_MainContent_lblPermanentShutdownDate") != null ? doc.getElementById("MainContent_MainContent_lblPermanentShutdownDate").text() : null;
+                        permanentData = null;
                     }
                     rowData.add(name);
                     rowData.add(country);
@@ -123,9 +142,6 @@ public class Parser {
                     if (flag){
                         dataList.add(rowData);
                     }
-                    else{
-                        System.out.println("KOKOKO" + i);
-                    }
                     //System.out.println(rowData);
                     allpars += 1;}
             } catch (IOException e) {
@@ -133,7 +149,11 @@ public class Parser {
         }
         System.out.println(dataList.size());
 
-    }}
+    }
+    public List<List<String>> getDataList(){
+        return  dataList;
+    }
+}
 
 
 

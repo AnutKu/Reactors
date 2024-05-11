@@ -1,7 +1,7 @@
+package Lab3;
+
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Map;
 
 public abstract class FileImporter {
     protected FileImporter next;
