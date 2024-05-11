@@ -102,8 +102,8 @@ public class Parser {
                     String name = doc.getElementById("MainContent_MainContent_lblReactorName") != null ? doc.getElementById("MainContent_MainContent_lblReactorName").text() : null;
                     String country = name != null ? reactorsInCountries.get(name) : null;
                     String type = doc.getElementById("MainContent_MainContent_lblType") != null ? doc.getElementById("MainContent_MainContent_lblType").text() : null;
-                    String owner = doc.getElementById("MainContent_MainContent_hypOwnerUrl") != null ? doc.getElementById("MainContent_MainContent_hypOwnerUrl").text() : null;
-                    String operator = doc.getElementById("MainContent_MainContent_hypOperatorUrl") != null ? doc.getElementById("MainContent_MainContent_hypOperatorUrl").text() : null;
+                    String owner = doc.getElementById("MainContent_MainContent_hypOwnerUrl") != null ? doc.getElementById("MainContent_MainContent_hypOwnerUrl").text().split(",")[0].trim() : null;
+                    String operator = doc.getElementById("MainContent_MainContent_hypOperatorUrl") != null ? doc.getElementById("MainContent_MainContent_hypOperatorUrl").text().split(",")[0].trim() : null;
                     String thermalCapacity = doc.getElementById("MainContent_MainContent_lblThermalCapacity") != null ? doc.getElementById("MainContent_MainContent_lblThermalCapacity").text() : null;
                     String firstGridConnection = doc.getElementById("MainContent_MainContent_lblGridConnectionDate") != null ? doc.getElementById("MainContent_MainContent_lblGridConnectionDate").text().split(",")[1].trim() : null;
                     String loadFactor = doc.getElementById("MainContent_MainContent_lblLoadFactor") != null ? doc.getElementById("MainContent_MainContent_lblLoadFactor").text().split("%")[0].trim() : null;
