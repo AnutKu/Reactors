@@ -45,7 +45,7 @@ public class WriteCountriesRegions{
             }
 
             // Вставка значений в таблицу Countries
-            String insertCountrySQL = "INSERT INTO Countries (country, region) VALUES (?, ?)";
+            String insertCountrySQL = "INSERT OR REPLACE INTO Countries (country, region) VALUES (?, ?)";
             try (PreparedStatement insertCountryStmt = connection.prepareStatement(insertCountrySQL)) {
                 for (Map.Entry<String, String> entry : countriesAndRegions.entrySet()) {
                     insertCountryStmt.setString(1, entry.getKey());

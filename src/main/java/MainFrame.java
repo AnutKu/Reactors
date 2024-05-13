@@ -19,6 +19,7 @@ public class MainFrame {
     private ReactorHolder reactorHolder = new ReactorHolder();
     private static MainFrame currentMainFrame;
     private Parser parser = new Parser();
+    private Map<String, Double> loadFactorMap;
 
     public void showFrame() {
         currentMainFrame = this;
@@ -49,13 +50,16 @@ public class MainFrame {
                         ex.printStackTrace();
                     }
                 }
+                loadFactorMap = reactorHolder.getLoadFactorMap();
+
+
             }
         });
         parsetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    parser.start();
+                    parser.start(loadFactorMap);
                     JOptionPane.showMessageDialog(null, "Парсинг завершен");
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -65,10 +69,11 @@ public class MainFrame {
         wtitePrisButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //List<List<String>> dataFromPris = parser.getDataList();
-               // WriteReactorFromPris writer = new WriteReactorFromPris();
-                //writer.write(dataFromPris);
+                List<List<String>> dataFromPris = parser.getDataList();
+                WriteReactorFromPris writer = new WriteReactorFromPris();
+                writer.write(dataFromPris);
                 WriteCountriesRegions.write();
+
                 JOptionPane.showMessageDialog(null, "Парсинг завершен");
             }
         });
