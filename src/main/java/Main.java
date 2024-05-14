@@ -1,11 +1,11 @@
-import javax.swing.*;
-import java.io.IOException;
-import java.util.List;
-import Lab4.CreateNewDatabase;
+import Lab4ParseAndWrite.CreateNewDatabase;
 
 public class Main {
     public static void main(String args[]){
+        //GUIFrame GUIFrame = new GUIFrame();
+        //GUIFrame.ShowFrame();
         MainFrame mainFrame = new MainFrame();
         mainFrame.showFrame();
         CreateNewDatabase.createNewDatabase("reactors.sqlite");
+
 }}

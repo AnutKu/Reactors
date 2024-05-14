@@ -1,5 +1,5 @@
 import Lab3.*;
-import Lab4.*;
+import Lab4ParseAndWrite.*;
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -13,10 +13,10 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 
-import Lab4.WriteRactorsFromFile;
+import Lab4ParseAndWrite.WriteRactorsTypesFromFile;
 
 public class MainFrame {
-    private ReactorHolder reactorHolder = new ReactorHolder();
+    private ReactorTypeHolder reactorTypeHolder = new ReactorTypeHolder();
     private static MainFrame currentMainFrame;
     private Parser parser = new Parser();
     private Map<String, Double> loadFactorMap;
@@ -50,7 +50,7 @@ public class MainFrame {
                         ex.printStackTrace();
                     }
                 }
-                loadFactorMap = reactorHolder.getLoadFactorMap();
+                loadFactorMap = reactorTypeHolder.getLoadFactorMap();
 
 
             }
@@ -81,7 +81,7 @@ public class MainFrame {
         writeIntoDBButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e)  {
-                WriteRactorsFromFile.write(reactorHolder);
+                WriteRactorsTypesFromFile.write(reactorTypeHolder);
             }
         });
 
@@ -104,7 +104,7 @@ public class MainFrame {
         YamlFileImporter yamlImporter = new YamlFileImporter();
         importerChain.setNext(xmlImporter);
         xmlImporter.setNext(yamlImporter);
-        importerChain.importFile(file, reactorHolder);
+        importerChain.importFile(file, reactorTypeHolder);
     }
 
     private void displayReactorTree() {
@@ -112,7 +112,7 @@ public class MainFrame {
         treeFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Lab3.Reactor Types");
-        for (String type : reactorHolder.getReactorMap().keySet()) {
+        for (String type : reactorTypeHolder.getReactorMap().keySet()) {
             DefaultMutableTreeNode reactorNode = new DefaultMutableTreeNode(type);
             root.add(reactorNode);
         }
@@ -124,9 +124,9 @@ public class MainFrame {
                 DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
                 if (selectedNode != null && selectedNode.getUserObject() instanceof String) {
                     String reactorName = (String) selectedNode.getUserObject();
-                    Reactor reactor = reactorHolder.getReactorMap().get(reactorName);
-                    if (reactor != null) {
-                        showReactorInfo(reactor);
+                    ReactorType reactorType = reactorTypeHolder.getReactorMap().get(reactorName);
+                    if (reactorType != null) {
+                        showReactorInfo(reactorType);
                     }
                 }
             }
@@ -140,9 +140,9 @@ public class MainFrame {
         treeFrame.setVisible(true);
     }
 
-    private void showReactorInfo(Reactor reactor) {
+    private void showReactorInfo(ReactorType reactorType) {
         JFrame infoFrame = new JFrame("REACTORS");
-        JTextArea infoTextArea = new JTextArea(reactor.toString());
+        JTextArea infoTextArea = new JTextArea(reactorType.toString());
         infoTextArea.setEditable(false);
         infoFrame.add(infoTextArea);
         infoFrame.pack();

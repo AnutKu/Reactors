@@ -1,6 +1,6 @@
 package Lab3;
 
-public class Reactor {
+public class ReactorType {
     private String type;
     private String reactorClass;
     private Double burnup;
@@ -12,9 +12,9 @@ public class Reactor {
     private Double thermalCapacity;
     private String source;
 
-    public Reactor(String type, String reactorClass, Double burnup, Double electricalCapacity,
-                   Double enrichment, Double firstLoad, Double kpd, Integer lifeTime,
-                   Double thermalCapacity, String source) {
+    public ReactorType(String type, String reactorClass, Double burnup, Double electricalCapacity,
+                       Double enrichment, Double firstLoad, Double kpd, Integer lifeTime,
+                       Double thermalCapacity, String source) {
         this.type = type;
         this.reactorClass = reactorClass;
         this.burnup = burnup;

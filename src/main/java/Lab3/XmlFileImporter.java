@@ -1,8 +1,5 @@
 package Lab3;
 
-import Lab3.FileImporter;
-import Lab3.Reactor;
-import Lab3.ReactorHolder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -15,7 +12,7 @@ import java.io.IOException;
 
 public class XmlFileImporter extends FileImporter {
     @Override
-    public void importFile(File file, ReactorHolder reactorMap) throws IOException {
+    public void importFile(File file, ReactorTypeHolder reactorMap) throws IOException {
         if (file.getName().endsWith(".xml")) {
             try {// блок try-with-resources. Этот блок гарантирует, что ресурсы будут закрыты после завершения работы с ними, даже в случае исключения
                 DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -29,8 +26,8 @@ public class XmlFileImporter extends FileImporter {
                     for (int i = 0; i < nodeList.getLength(); i++) {
                         if (nodeList.item(i).getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
                             Element element = (Element) nodeList.item(i);
-                            Reactor reactor = parseReactor(element);
-                            reactorMap.addReactor(element.getNodeName(), reactor);
+                            ReactorType reactorType = parseReactor(element);
+                            reactorMap.addReactor(element.getNodeName(), reactorType);
                         }
                     }
                 }
@@ -45,7 +42,7 @@ public class XmlFileImporter extends FileImporter {
     }
 
 
-    private Reactor parseReactor(Element element) {
+    private ReactorType parseReactor(Element element) {
         String type = element.getNodeName();
         String reactorClass = getElementTextContent(element, "class");
         Double burnup = getDoubleElementTextContent(element, "burnup");
@@ -55,7 +52,7 @@ public class XmlFileImporter extends FileImporter {
         Double kpd = getDoubleElementTextContent(element, "kpd");
         Integer lifeTime = getIntElementTextContent(element, "life_time");
         Double thermalCapacity = getDoubleElementTextContent(element, "termal_capacity");
-        return new Reactor(type, reactorClass, burnup, electricalCapacity, enrichment, firstLoad, kpd, lifeTime, thermalCapacity, "XML");
+        return new ReactorType(type, reactorClass, burnup, electricalCapacity, enrichment, firstLoad, kpd, lifeTime, thermalCapacity, "XML");
     }
 
     private String getElementTextContent(Element element, String tagName) {

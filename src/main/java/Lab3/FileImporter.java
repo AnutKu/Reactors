@@ -10,5 +10,5 @@ public abstract class FileImporter {
         this.next = next;
     }
 
-    public abstract void importFile(File file, ReactorHolder reactorMap) throws IOException;
+    public abstract void importFile(File file, ReactorTypeHolder reactorMap) throws IOException;
 }

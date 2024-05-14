@@ -1,6 +1,5 @@
 package Lab3;
 
-import Lab3.FileImporter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -10,7 +9,7 @@ import java.util.Iterator;
 
 public class JsonFileImporter extends FileImporter {
     @Override
-    public void importFile(File file, ReactorHolder reactorMap) throws IOException {
+    public void importFile(File file, ReactorTypeHolder reactorMap) throws IOException {
         if (file.getName().endsWith(".json")) {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(file);
@@ -19,8 +18,8 @@ public class JsonFileImporter extends FileImporter {
                 String fieldName = it.next();
                 JsonNode reactorNode = rootNode.get(fieldName);
                 if (reactorNode != null && reactorNode.isObject()) {
-                    Reactor reactor = parseReactor(reactorNode);
-                    reactorMap.addReactor(fieldName, reactor);
+                    ReactorType reactorType = parseReactor(reactorNode);
+                    reactorMap.addReactor(fieldName, reactorType);
                 }
             }
         } else if (next != null) {
@@ -30,7 +29,7 @@ public class JsonFileImporter extends FileImporter {
         }
     }
 
-    private Reactor parseReactor(JsonNode reactorNode) {
+    private ReactorType parseReactor(JsonNode reactorNode) {
         // reactorNode имеет вид {"class":"MKER","burnup":30,"kpd":0.352,"enrichment":0.024,"termal_capacity":4250,"electrical_capacity":1500,"life_time":50,"first_load":192};
         String type = reactorNode.has("type") ? reactorNode.get("type").asText() : null;
         String reactorClass = reactorNode.has("class") ? reactorNode.get("class").asText() : null;
@@ -42,7 +41,7 @@ public class JsonFileImporter extends FileImporter {
         int lifeTime = reactorNode.has("life_time") ? reactorNode.get("life_time").asInt() : 0;
         double thermalCapacity = reactorNode.has("termal_capacity") ? reactorNode.get("termal_capacity").asDouble() : 0.0;
 
-        return new Reactor(type, reactorClass, burnup, electricalCapacity, enrichment, firstLoad, kpd, lifeTime, thermalCapacity, "JSON");
+        return new ReactorType(type, reactorClass, burnup, electricalCapacity, enrichment, firstLoad, kpd, lifeTime, thermalCapacity, "JSON");
     }
 
 

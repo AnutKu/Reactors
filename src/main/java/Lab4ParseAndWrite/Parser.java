@@ -1,4 +1,4 @@
-package Lab4;
+package Lab4ParseAndWrite;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -189,11 +189,14 @@ public class Parser {
                                         else if (year == Integer.parseInt(firstGridConnection)){Double loadfromfile = loadFactorMapEntry.get(type);
                                         loadMap.put(year, loadfromfile);}}
                                 }
-                                if ((!years.isEmpty()) && status.equals("Operational")) {
-                                    for (Integer yr : years) {
-                                        loadMap.put(yr, 85.0);
-                                    }
                                 }
+                                }
+                        if ((!years.isEmpty()) && status.equals("Operational")) {
+                            for (Integer yr : years) {
+                                if (Integer.parseInt(firstGridConnection) < yr){
+                                    loadMap.put(yr, 85.0);}
+                                else if (yr == Integer.parseInt(firstGridConnection)){Double loadfromfile = loadFactorMapEntry.get(type);
+                                    loadMap.put(yr, loadfromfile);}
                             }
                         }
                     }
