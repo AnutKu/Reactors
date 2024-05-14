@@ -40,6 +40,8 @@ public class WriteRactorsTypesFromFile {
                 statement.setDouble(2, 125);
                 statement.setString(1, "HTGR");
                 statement.setDouble(2, 200);
+                statement.setString(1, "FBR");
+                statement.setDouble(2, 55);
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
