@@ -74,7 +74,7 @@ public class MainFrame {
                 writer.write(dataFromPris);
                 WriteCountriesRegions.write();
 
-                JOptionPane.showMessageDialog(null, "Парсинг завершен");
+                JOptionPane.showMessageDialog(null, "Записано");
             }
         });
 

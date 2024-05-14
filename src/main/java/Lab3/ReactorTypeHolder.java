@@ -4,15 +4,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ReactorTypeHolder {
-    private Map<String, ReactorType> reactorMap;
+    private Map<String, ReactorType> reactortypeMap;
 
     public ReactorTypeHolder() {
-        this.reactorMap = new HashMap<>();
+        this.reactortypeMap = new HashMap<>();
     }
     public void addReactor(String key, ReactorType reactorType) {
-        reactorMap.put(key, reactorType);
+        reactortypeMap.put(key, reactorType);
     }
-    public Map<String, ReactorType> getReactorMap() {return reactorMap;}
+    public Map<String, ReactorType> getReactorMap() {return reactortypeMap;}
 
     public Map<String, Double> getLoadFactorMap() {
         Map<String, Double> loadFactorMap = new HashMap<>();
@@ -20,7 +20,7 @@ public class ReactorTypeHolder {
         loadFactorMap.put("GCR", 15.0);
         loadFactorMap.put("FBR", 30.0);
         loadFactorMap.put("HTGR", 10.0);
-        for (Map.Entry<String, ReactorType> entry : reactorMap.entrySet()) {
+        for (Map.Entry<String, ReactorType> entry : reactortypeMap.entrySet()) {
             String reactorClass = entry.getKey();
             ReactorType reactorType = entry.getValue();
             double loadFactor = reactorType.getFirstLoad();
