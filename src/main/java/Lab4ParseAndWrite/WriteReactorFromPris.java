@@ -1,4 +1,4 @@
-package Lab4;
+package Lab4ParseAndWrite;
 import java.sql.*;
 import java.util.List;
 public class WriteReactorFromPris {

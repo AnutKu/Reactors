@@ -1,4 +1,4 @@
-package Lab4;
+package Lab4ParseAndWrite;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
