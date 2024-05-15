@@ -18,8 +18,9 @@ public class ReadFromDB {
                 String operator = resultSet.getString("operator");
                 int burnup = getBurnup(connection, type);
                 int thermalCapacity = resultSet.getInt("thermalCapacity");
+                int firstGridConnection = resultSet.getInt("firstGridConnection");
                 HashMap<Integer, Double> loadFactors = getLoadFactors(connection, reactorName);
-                Reactor newreactor = new Reactor(reactorName, type, country, region, operator, burnup, thermalCapacity, loadFactors);
+                Reactor newreactor = new Reactor(reactorName, type, country, region, operator, burnup, thermalCapacity, firstGridConnection, loadFactors);
                 reactorHolder.addReactor(newreactor);
             }
         } catch (SQLException e) {
