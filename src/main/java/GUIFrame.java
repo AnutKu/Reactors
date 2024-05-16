@@ -18,6 +18,9 @@ public class GUIFrame {
         JButton countryButton = new JButton("Агрегация по странам");
         JButton operatorButton = new JButton("Агрегация по операторам");
         JButton regionButton = new JButton("Агрегация по региона");
+        countryButton.setEnabled(false);
+        operatorButton.setEnabled(false);
+        regionButton.setEnabled(false);
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Выберите файл SQLite");
         FileNameExtensionFilter filter = new FileNameExtensionFilter("SQLite Database (*.sqlite, *.db)", "sqlite", "db");
@@ -34,8 +37,11 @@ public class GUIFrame {
                         ReadFromDB.read(selectedFile.getAbsolutePath(), reactorHolder);
                         JOptionPane.showMessageDialog(null, "Данные считаные");
                         reactorHolder.calculateConsumptionPerYear();
+                        countryButton.setEnabled(true);
+                        operatorButton.setEnabled(true);
+                        regionButton.setEnabled(true);
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(frame, "Ошибка при чтении файла: " + ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(frame, "Ошибка: " + ex.getMessage(), "Внимание", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
@@ -129,7 +135,7 @@ public class GUIFrame {
         panel.add(operatorButton);
         panel.add(regionButton);
         frame.getContentPane().add(panel);
-        frame.setSize(500, 200);
+        frame.setSize(300, 200);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }}

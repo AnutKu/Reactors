@@ -50,7 +50,7 @@ public class Reactor {
         for (HashMap.Entry<Integer, Double> entry : loadFactorPerYear.entrySet()) {
             Integer year = entry.getKey();
             Double fLoad = entry.getValue();
-            Double consumption = thermalCapacity / burnup * fLoad;
+            Double consumption = thermalCapacity / burnup * fLoad / 100000*365;
             if (year != firstGridConnection){consumption *= 3;}
             consumptionPerYear.put(year,consumption);
             }
