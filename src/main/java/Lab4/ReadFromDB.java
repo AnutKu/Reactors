@@ -1,9 +1,10 @@
 package Lab4;
+import java.io.IOException;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 public class ReadFromDB {
-    public static void read(String path, ReactorHolder reactorHolder){
+    public static void read(String path, ReactorHolder reactorHolder) throws IOException, SQLException {
         path = "jdbc:sqlite:" + path.replaceAll("\\\\", "\\\\\\\\");
         Connection connection = null;
         try {
@@ -24,14 +25,14 @@ public class ReadFromDB {
                 reactorHolder.addReactor(newreactor);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw  e;
         } finally {
             try {
                 if (connection != null) {
                     connection.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw e;
             }
         }
     }
