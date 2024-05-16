@@ -6,11 +6,12 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 
 public class GUIFrame {
     private  ReactorHolder reactorHolder = new ReactorHolder();
-    public void ShowFrame() {
+    public void ShowFrame() throws URISyntaxException {
         JFrame frame = new JFrame("PRIS");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel panel = new JPanel();
@@ -21,15 +22,18 @@ public class GUIFrame {
         countryButton.setEnabled(false);
         operatorButton.setEnabled(false);
         regionButton.setEnabled(false);
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Выберите файл SQLite");
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("SQLite Database (*.sqlite, *.db)", "sqlite", "db");
-        fileChooser.setFileFilter(filter);
-        String initialDirectory = "D:\\2_курс_4_семестр\\Программирование\\Reactors\\src\\main\\resources";
-        fileChooser.setCurrentDirectory(new File(initialDirectory));
         selectFileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                try {
+                    fileChooser = new JFileChooser(new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getParentFile());
+                } catch (URISyntaxException ex) {
+                    throw new RuntimeException(ex);
+                }
+                fileChooser.setDialogTitle("Выберите файл SQLite");
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("SQLite Database (*.sqlite, *.db)", "sqlite", "db");
+                fileChooser.setFileFilter(filter);
                 int returnValue = fileChooser.showOpenDialog(frame);
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = fileChooser.getSelectedFile();
