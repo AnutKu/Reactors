@@ -78,7 +78,6 @@ public class GUIFrame {
                 tableFrame.setVisible(true);
             }
         });
-
         operatorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
